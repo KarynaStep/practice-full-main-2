@@ -1,0 +1,58 @@
+version: '3'
+services:
+  front-react:
+    platform: linux/amd64
+    container_name: squadhelp_front-react_1
+    build:
+      context: ./client
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - server-dev
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    ports:
+      - "5000:3000"
+
+  server-dev:
+    restart: always
+    platform: linux/amd64
+    container_name: squadhelp_server-dev_1
+    build:
+      context: ./server
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db-dev
+      - mongo-dev
+    volumes:
+      - ./var/www/html/images:/var/www/html/images
+      - ./server:/server
+      - /server/node_modules
+
+
+  mongo-dev:
+    image: mongo:4.4.6-bionic
+    platform: linux/amd64
+    container_name: mongo-dev
+    ports:
+      - "27017:27017"
+
+
+
+  db-dev:
+    image: postgres:13.2-alpine
+    platform: linux/amd64
+    container_name: db-dev
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=todo-dev
+    ports:
+      - "5432:5432"
+
+volumes:
+  server-dev:

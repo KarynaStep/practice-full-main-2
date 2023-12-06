@@ -1,13 +1,26 @@
+'use strict';
+const { Model } = require('sequelize');
+const {CONTESTS_TYPES, CONTEST_STATUSES } = require('../constants');
 module.exports = (sequelize, DataTypes) => {
-  const Contest = sequelize.define(
-    'Contests',
+  class Contest extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      Contest.belongsTo(models.User, {
+        foreignKey: 'userId',
+        sourceKey: 'id'
+      });
+      Contest.hasMany(models.Offer, {
+        foreignKey: 'contestId',
+        targetKey: 'id',
+      });
+    }
+  }
+  Contest.init(
     {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
       orderId: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -22,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       contestType: {
         allowNull: false,
-        type: DataTypes.ENUM('name', 'tagline', 'logo'),
+        type: DataTypes.ENUM(...Object.values(CONTESTS_TYPES)),
       },
       fileName: {
         allowNull: true,
@@ -68,12 +81,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
-      createdAt: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
       status: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM(...Object.values(CONTEST_STATUSES)),
         allowNull: false,
       },
       prize: {
@@ -86,9 +95,10 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      timestamps: false,
+      sequelize,
+      modelName: 'Contest',
+      timestamps: true,
     }
   );
-
   return Contest;
 };

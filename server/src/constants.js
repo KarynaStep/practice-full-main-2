@@ -8,16 +8,20 @@ module.exports = {
   SQUADHELP_BANK_EXPIRY: '11/22',
   ROLES: {
     CUSTOMER: 'customer',
-    CREATOR: 'creator'
+    CREATOR: 'creator',
   },
   CREATOR_ENTRIES: 'creator_entries',
-  CONTEST_STATUS_ACTIVE: 'active',
-  CONTEST_STATUS_FINISHED: 'finished',
-  CONTEST_STATUS_PENDING: 'pending',
+  CONTEST_STATUSES: {
+    ACTIVE: 'active',
+    FINISHED: 'finished',
+    PENDING: 'pending',
+  },
   CONTESTS_DEFAULT_DIR: 'public/contestFiles/',
-  NAME_CONTEST: 'name',
-  LOGO_CONTEST: 'logo',
-  TAGLINE_CONTEST: 'tagline',
+  CONTESTS_TYPES: {
+    NAME: 'name',
+    LOGO: 'logo',
+    TAGLINE: 'tagline',
+  },
   OFFER_STATUS_PENDING: 'pending',
   OFFER_STATUS_REJECTED: 'rejected',
   OFFER_STATUS_WON: 'won',

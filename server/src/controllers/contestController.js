@@ -44,7 +44,7 @@ module.exports.getContestById = async (req, res, next) => {
   try {
     let contestInfo = await db.Contest.findOne({
       where: { id: req.headers.contestid },
-      order: [[db.Offers, 'id', 'asc']],
+      order: [[db.Offer, 'id', 'asc']],
       include: [
         {
           model: db.User,
@@ -54,7 +54,7 @@ module.exports.getContestById = async (req, res, next) => {
           },
         },
         {
-          model: db.Offers,
+          model: db.Offer,
           required: false,
           where:
             req.tokenData.role === CONSTANTS.CREATOR
@@ -141,7 +141,7 @@ module.exports.setNewOffer = async (req, res, next) => {
 
 const rejectOffer = async (offerId, creatorId, contestId) => {
   const rejectedOffer = await contestQueries.updateOffer(
-    { status: CONSTANTS.OFFER_STATUS_REJECTED },
+    { status: CONSTANTS.OFFER_STATUSES.REJECTED },
     { id: offerId }
   );
   controller
@@ -186,8 +186,8 @@ const resolveOffer = async (
   const updatedOffers = await contestQueries.updateOfferStatus(
     {
       status: db.sequelize.literal(` CASE
-            WHEN "id"=${offerId} THEN '${CONSTANTS.OFFER_STATUS_WON}'
-            ELSE '${CONSTANTS.OFFER_STATUS_REJECTED}'
+            WHEN "id"=${offerId} THEN '${CONSTANTS.OFFER_STATUSES.WON}'
+            ELSE '${CONSTANTS.OFFER_STATUSES.REJECTED}'
             END
     `),
     },
@@ -200,7 +200,7 @@ const resolveOffer = async (
   const arrayRoomsId = [];
   updatedOffers.forEach((offer) => {
     if (
-      offer.status === CONSTANTS.OFFER_STATUS_REJECTED &&
+      offer.status === CONSTANTS.OFFER_STATUSES.REJECTED &&
       creatorId !== offer.userId
     ) {
       arrayRoomsId.push(offer.userId);
@@ -259,7 +259,7 @@ module.exports.getCustomersContests = (req, res, next) => {
     order: [['id', 'DESC']],
     include: [
       {
-        model: db.Offers,
+        model: db.Offer,
         required: false,
         attributes: ['id'],
       },
@@ -293,7 +293,7 @@ module.exports.getContests = (req, res, next) => {
     offset: req.body.offset ? req.body.offset : 0,
     include: [
       {
-        model: db.Offers,
+        model: db.Offer,
         required: req.body.ownEntries,
         where: req.body.ownEntries ? { userId: req.tokenData.userId } : {},
         attributes: ['id'],

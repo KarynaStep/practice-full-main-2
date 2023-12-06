@@ -82,14 +82,14 @@ const OfferBox = (props) => {
 
   const offerStatus = () => {
     const { status } = props.data;
-    if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
+    if (status === CONSTANTS.OFFER_STATUSES.REJECTED) {
       return (
         <i
           className={classNames('fas fa-times-circle reject', styles.reject)}
         />
       );
     }
-    if (status === CONSTANTS.OFFER_STATUS_WON) {
+    if (status === CONSTANTS.OFFER_STATUSES.WON) {
       return (
         <i
           className={classNames('fas fa-check-circle resolve', styles.resolve)}

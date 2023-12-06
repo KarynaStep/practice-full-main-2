@@ -12,6 +12,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING,
       },
+      
     });
   },
   down: (queryInterface, Sequelize) => {

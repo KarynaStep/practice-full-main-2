@@ -32,7 +32,7 @@ Object.keys(db).forEach((modelName) => {
 });
 
 // db[ 'Contests' ].belongsTo(db[ 'Users' ],
-//   { foreignKey: 'userId', sourceKey: 'id' });
+// Off  { foreignKey: 'userId', sourceKey: 'id' });
 // db[ 'Contests' ].hasMany(db[ 'Offers' ],
 //   { foreignKey: 'contestId', targetKey: 'id' });
 

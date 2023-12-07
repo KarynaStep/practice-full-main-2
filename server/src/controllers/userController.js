@@ -25,7 +25,7 @@ module.exports.login = async (req, res, next) => {
         email: foundUser.email,
         rating: foundUser.rating,
       },
-      CONSTANTS.JWT_SECRET,
+      CONSTANTS.ACCESS_JWT_SECRET,
       { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
     );
     await userQueries.updateUser({ accessToken }, foundUser.id);
@@ -51,7 +51,7 @@ module.exports.registration = async (req, res, next) => {
         email: newUser.email,
         rating: newUser.rating,
       },
-      CONSTANTS.JWT_SECRET,
+      CONSTANTS.ACCESS_JWT_SECRET,
       { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME }
     );
     await userQueries.updateUser({ accessToken }, newUser.id);
